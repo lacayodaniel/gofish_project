@@ -33,6 +33,7 @@ struct deck deck_instance;
  */ 
 int shuffle();
 
+void swap(struct card *a, struct card *b);
 /*
  * Function: deal_player_cards
  * ---------------------------
