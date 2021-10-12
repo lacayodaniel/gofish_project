@@ -9,13 +9,13 @@ int shuffle(){
 	
 	for(i=0;i<4;i++){
 		for(j=0;j<13;j++){
-			struct card anon_card = {SUITS[i], RANKS[j]};
-			templist[n] = anon_card;
+			struct card *anon_card = {*SUITS[i], *RANKS[j]};
+			templist[n] = *anon_card;
 			n++;
 		}
 	}
 	n--;
-	struct deck deck_instance = {templist, n};
+	struct deck deck_instance = {*templist, n};
 	
 	return 0;
 	
