@@ -20,8 +20,7 @@ int shuffle(){
 		j = rand() % (i+1);
 		swap(&deck_instance.list[i], &deck_instance.list[j]);
 	}
-	deck_instance.top_card = rand() % (52);
-	printf(deck_instance.list);
+	deck_instance.top_card = 0; // top card is the element position of the top card in the array
 	return 0;
 	
 }
@@ -32,7 +31,25 @@ void swap(struct card *a, struct card *b){
 	*b = temp;
 }
 
+/*
+ * Function: next_card
+ * -------------------
+ *  Return a pointer to the top card on the deck.
+ *  Removes that card from the deck. 
+ *
+ *  returns: pointer to the top card on the deck.
+ */
+struct card* next_card( ){
+	struct card* temp = &deck_instance.list[deck_instance.top_card];
+	deck_instance.top_card++;
+	return temp;
+
+
+}
+
+
+
 size_t deck_size(){
 	int a = 0;
-	return sizeof(deck_instance.list)/3;
+	return 52 - deck_instance.top_card;
 }
