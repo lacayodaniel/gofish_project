@@ -32,6 +32,26 @@ void swap(struct card *a, struct card *b){
 }
 
 /*
+ * Function: deal_player_cards
+ * ---------------------------
+ *  Deal 7 random cards to the player specified in the function.
+ *  Remove the dealt cards from the deck. 
+ *
+ *  target: pointer to the player to be dealt cards
+ *
+ *  returns: 0 if no error, and non-zero on error
+ */
+int deal_player_cards(struct player* target){
+	for (int i=0; i<7; i++){
+		int error = add_card(target, next_card());
+		if (error == -1) { return -1; }
+	}
+
+	return 0;
+}
+
+
+/*
  * Function: next_card
  * -------------------
  *  Return a pointer to the top card on the deck.
@@ -39,7 +59,7 @@ void swap(struct card *a, struct card *b){
  *
  *  returns: pointer to the top card on the deck.
  */
-struct card* next_card( ){
+struct card* next_card(){
 	struct card* temp = &deck_instance.list[deck_instance.top_card];
 	deck_instance.top_card++;
 	return temp;
