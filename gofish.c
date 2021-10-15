@@ -19,7 +19,7 @@ int main(int args, char* argv[])
 	//remove_card(&user, &removedCard);
 	//printHand(user.card_list, handFormat);
 	//printHand(computer.card_list, handFormat);
-	//printf("user.book: %s", user.book);
+	//printf("user.hand_size: %d", user.hand_size);
 	return 0;
 }
 

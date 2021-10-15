@@ -17,6 +17,7 @@ int add_card(struct player* target, struct card* new_card){
 	temp->top = *new_card;
 	temp->next = target->card_list;
 	target->card_list = temp;
+	target->hand_size++;
 
 	return 0;
 }
@@ -25,8 +26,6 @@ int remove_card(struct player* target, struct card* old_card){
 	struct hand* iterator = target->card_list;
 	struct hand* previous = NULL;
 	if (iterator == NULL) { return -1; }
-	printf("iterator s, %s\n",iterator->top.suit);
-	printf("iterator c, %c\n",iterator->top.suit);
 	while ((strcmp(iterator->top.suit, old_card->suit) != 0) && (strcmp(iterator->top.rank, old_card->rank) != 0)){
 		previous = iterator;
 		iterator = iterator->next;
@@ -37,6 +36,7 @@ int remove_card(struct player* target, struct card* old_card){
 	} else {
 		target->card_list = iterator->next;
 	}
+	target->hand_size--;
 	free(iterator);
 	return 0;
 }
