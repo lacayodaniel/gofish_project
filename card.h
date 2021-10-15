@@ -7,8 +7,8 @@
 */
 struct card
 {
-  char suit;
-  char rank[2];
+  char suit[2];
+  char rank[3];
 };
 
 /*

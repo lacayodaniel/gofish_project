@@ -1,14 +1,17 @@
 #include <time.h>
 #include "deck.h"
+#include <string.h>
 
 int shuffle(){
 	char* SUITS[5] = {"H", "C", "S", "D"};
-	char* RANKS[14] = {"2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"};
+	char* RANKS[14] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
 	int i,j,n=0;
-	
+	struct card anon_card;
 	for(i=0; i<4; i++){
 		for(j=0; j<13; j++){
-			struct card anon_card = {*SUITS[i], *RANKS[j]};
+			// = { *SUITS[i], *RANKS[j] };
+			strcpy(anon_card.suit, SUITS[i]);
+			strcpy(anon_card.rank, RANKS[j]);
 			deck_instance.list[n]=anon_card;
 			n++;
 		}
