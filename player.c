@@ -3,7 +3,7 @@
 /*
  * Function: add_card
  * -------------------
- *  Add a new card to the player's hand. 
+ *  Add a new card to the player's hand.
  *
  *  target: the target player
  *  new_card: pointer to the new card to add
@@ -36,10 +36,14 @@ int remove_card(struct player* target, struct card* old_card){
 		previous->next = iterator->next;
 	} else {
 		target->card_list = iterator->next;
-		//lsit = front;
 	}
 	free(iterator);
 	return 0;
 }
 
-
+// 0->game continue 1->game over
+int game_over(struct player* target){
+	size_t bookLen = strlen(target->book);
+	if (bookLen == 7) { return 1; }
+	return 0;
+}

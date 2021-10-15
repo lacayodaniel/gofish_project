@@ -1,8 +1,9 @@
 #include "deck.h"
-void printHand(struct hand* cardInHand, char *handFormat);
+#include "gofish.h"
 
 
-int main(int args, char* argv[]) 
+
+int main(int args, char* argv[])
 {
 	struct player user = {NULL, NULL, 0};
 	struct player computer = {NULL, NULL, 0};
@@ -18,7 +19,7 @@ int main(int args, char* argv[])
 	//remove_card(&user, &removedCard);
 	//printHand(user.card_list, handFormat);
 	//printHand(computer.card_list, handFormat);
-	
+	//printf("user.book: %s", user.book);
 	return 0;
 }
 
