@@ -93,7 +93,7 @@ int search(struct player* target, char rank[3]);
  *   Return: 0 if no cards found/transferred, <0 if error, otherwise
  *   return value indicates number of cards transferred
  */
-int transfer_cards(struct player* src, struct player* dest, char rank);
+int transfer_cards(struct player* src, struct player* dest, char *rank);
 
 /*
  * Function: game_over

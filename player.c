@@ -29,7 +29,7 @@ int remove_card(struct player* target, struct card* old_card){
 	while ((strcmp(iterator->top.suit, old_card->suit) != 0) && (strcmp(iterator->top.rank, old_card->rank) != 0)){
 		previous = iterator;
 		iterator = iterator->next;
-		if (iterator == NULL) { return -1; }
+		if (iterator == NULL) { return -1; } // empty condition
 	}
 	if (previous != NULL){
 		previous->next = iterator->next;
@@ -53,6 +53,58 @@ int search(struct player* target, char *rank){
 	return 1;
 }
 
+int transfer_cards(struct player* src, struct player* dest, char *rank){
+	int cardsTransfered = 0;
+	struct hand* iterator = src->card_list;
+	struct hand* previous = NULL;
+	struct hand* filler = malloc(sizeof(struct hand));
+	struct card* transcard = malloc(sizeof(struct card));
+	if (iterator == NULL) { return -1; }
+	while (search(src, rank) == 1){
+		while (strcmp(iterator->top.rank, rank) != 0){
+			iterator = iterator->next;
+		}
+		*transcard = iterator->top;
+		add_card(dest,transcard);
+		remove_card(src,transcard);
+		cardsTransfered++;
+		iterator = src->card_list;
+
+
+	// while (iterator != NULL){
+	// 	if (strcmp(iterator->top.rank, rank) == 0){
+	// 		// filler->top = iterator->top;
+	// 		// filler->next = dest->card_list;
+	// 		// dest->card_list = filler;
+	// 		// dest->hand_size++;
+	// 		// if (previous == src->card_list){
+	// 		// 	src->card_list = iterator->next;
+	// 		// 	printf("previous == src\n");
+	// 		// } else {
+	// 		// 	printf("previous != src\n");
+	// 		// 	previous->next = iterator->next;
+	// 		// }
+	// 		*transcard = iterator->top;
+	// 		add_card(dest,transcard);
+	// 		remove_card(src,transcard);
+	// 		if (previous != NULL){
+	// 			previous->next = iterator->next;
+	// 			iterator = iterator->next;
+	// 		} else {
+	// 			iterator = iterator->next;
+	// 		}
+	// 		//previous = iterator->next;
+	// 		//iterator = iterator->next;
+	// 		//src->hand_size--;
+	// 		cardsTransfered++;
+	// 	} else {
+	// 		previous = iterator;
+	// 		iterator = iterator->next;
+	// 	}
+	}
+	return cardsTransfered;
+}
+
 char* computer_play(struct player* target){
 	struct hand* iterator = target->card_list;
 	// produce [0,6]
@@ -61,8 +113,8 @@ char* computer_play(struct player* target){
 		iterator = iterator->next;
 	}
 	char *pans = malloc(sizeof(target->card_list->top.rank));
-	pans = target->card_list->top.rank;
-	printf("Player 2's turn, enter a Rank: %s", pans);
+	pans = iterator->top.rank;
+	printf("Player 2's turn, enter a Rank: %s\n", pans);
 	return pans;
 }
 

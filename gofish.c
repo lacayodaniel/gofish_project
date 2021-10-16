@@ -26,6 +26,7 @@ int main(int args, char* argv[])
 			hasCard = search(&computer, userInput);
 			if (hasCard == 1){
 				printf("    -found a match!\n");
+				printf("%d cards transfered\n", transfer_cards(&computer, &user, userInput));
 			} else {
 				printf("    -Player 2 has no %s 's\n", userInput);
 				val = 0;
