@@ -1,11 +1,10 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "player.h"
 #include "card.h"
-#include <string.h>
+
 
 /*
  * Structure: deck

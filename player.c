@@ -41,6 +41,48 @@ int remove_card(struct player* target, struct card* old_card){
 	return 0;
 }
 
+//1->target has rank 0->target does not have rank
+int search(struct player* target, char *rank){
+	struct hand* iterator = target->card_list;
+	if (iterator == NULL) { return -1; }
+	//printf("rank %s", iterator->top.rank);
+	while (strcmp(iterator->top.rank, rank) != 0){
+		iterator = iterator->next;
+		if (iterator == NULL) { return 0; }
+	}
+	return 1;
+}
+
+char* computer_play(struct player* target){
+	struct hand* iterator = target->card_list;
+	// produce [0,6]
+	int randCard = (rand() % (int)(target->hand_size));
+	for (int i = 0; i<randCard; i++){
+		iterator = iterator->next;
+	}
+	char *pans = malloc(sizeof(target->card_list->top.rank));
+	pans = target->card_list->top.rank;
+	printf("Player 2's turn, enter a Rank: %s", pans);
+	return pans;
+}
+
+
+char* user_play(struct player* target){
+	char ans[3];
+	char *pans = malloc(sizeof(ans));
+	if (pans == NULL) {return NULL; }
+	int userHasRank = 0;
+	while (userHasRank == 0){
+		printf("Player 1's turn, enter a Rank:");
+		scanf("%s", pans);
+		userHasRank = search(target, pans);
+		if (userHasRank == 0){
+			printf("Error - must have at least one card from rank to play\n");
+		}
+	}
+
+	return pans;
+}
 // 0->game continue 1->game over
 int game_over(struct player* target){
 	size_t bookLen = strlen(target->book);

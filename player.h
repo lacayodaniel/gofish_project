@@ -2,7 +2,11 @@
 #define PLAYER_H
 
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
 #include "card.h"
+
 
 /*
  * Structure: player
@@ -72,7 +76,7 @@ char check_add_book(struct player* target);
  *
  *  Return: If the player has a card of that rank, return 1, else return 0
  */
-int search(struct player* target, char rank);
+int search(struct player* target, char rank[3]);
 
 /*
  * Function: transfer_cards
@@ -127,7 +131,7 @@ int reset_player(struct player* target);
  *
  *   Rank: return a valid selected rank
  */
-char computer_play(struct player* target);
+char* computer_play(struct player* target);
 
 /*
  * Function: user_play
@@ -142,6 +146,6 @@ char computer_play(struct player* target);
  *
  *   returns: return a valid selected rank
  */
-char user_play(struct player* target);
+char* user_play(struct player* target);
 
 #endif
