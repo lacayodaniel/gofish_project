@@ -19,8 +19,8 @@ int main(int args, char* argv[])
 	char *userInput = malloc(sizeof(user.card_list->top.rank));
 	while (game_over(&user) == game_over(&computer)) {
 		// show player cards
-		printHand(user, p1format);
-		printHand(computer, p2format);
+		printHand(&user, p1format);
+		printHand(&computer, p2format);
 		if (val == 1) {
 			userInput = user_play(&user);
 			hasCard = search(&computer, userInput);
@@ -56,12 +56,12 @@ int main(int args, char* argv[])
 	return 0;
 }
 
-void printHand(struct player target, char *handFormat){
-	struct hand* templist = target.card_list;
+void printHand(struct player *target, char *handFormat){
+	struct hand* templist = target->card_list;
 	printf("%s Hand: ", handFormat);
 	while (templist != NULL){
 		printf("%s%s ", templist->top.rank, templist->top.suit);
 		templist = templist->next;
 	}
-	printf("\n%s Book: %s\n", handFormat, target.book);
+	printf("\n%s Book: %s\n", handFormat, target->book);
 }

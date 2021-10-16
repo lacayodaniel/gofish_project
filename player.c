@@ -57,50 +57,28 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 	int cardsTransfered = 0;
 	struct hand* iterator = src->card_list;
 	struct hand* previous = NULL;
-	struct hand* filler = malloc(sizeof(struct hand));
-	struct card* transcard = malloc(sizeof(struct card));
 	if (iterator == NULL) { return -1; }
-	while (search(src, rank) == 1){
-		while (strcmp(iterator->top.rank, rank) != 0){
-			iterator = iterator->next;
+	while (iterator != NULL){ // while list is not empty
+		if (strcmp(iterator->top.rank, rank) == 0){ // if we have a match
+			// add card to dest hand
+			struct hand* filler = malloc(sizeof(struct hand));
+			filler->top = iterator->top;
+			filler->next = dest->card_list;
+			dest->card_list = filler;
+			dest->hand_size++;
+			if (iterator == src->card_list){ // if the match is top level
+				// remove card from src hand
+				src->card_list = iterator->next;
+			} else {
+				// remove card from src hand
+				previous->next = iterator->next;
+			}
+			src->hand_size--;
+			cardsTransfered++;
+		} else {
+			previous = iterator;
 		}
-		*transcard = iterator->top;
-		add_card(dest,transcard);
-		remove_card(src,transcard);
-		cardsTransfered++;
-		iterator = src->card_list;
-
-
-	// while (iterator != NULL){
-	// 	if (strcmp(iterator->top.rank, rank) == 0){
-	// 		// filler->top = iterator->top;
-	// 		// filler->next = dest->card_list;
-	// 		// dest->card_list = filler;
-	// 		// dest->hand_size++;
-	// 		// if (previous == src->card_list){
-	// 		// 	src->card_list = iterator->next;
-	// 		// 	printf("previous == src\n");
-	// 		// } else {
-	// 		// 	printf("previous != src\n");
-	// 		// 	previous->next = iterator->next;
-	// 		// }
-	// 		*transcard = iterator->top;
-	// 		add_card(dest,transcard);
-	// 		remove_card(src,transcard);
-	// 		if (previous != NULL){
-	// 			previous->next = iterator->next;
-	// 			iterator = iterator->next;
-	// 		} else {
-	// 			iterator = iterator->next;
-	// 		}
-	// 		//previous = iterator->next;
-	// 		//iterator = iterator->next;
-	// 		//src->hand_size--;
-	// 		cardsTransfered++;
-	// 	} else {
-	// 		previous = iterator;
-	// 		iterator = iterator->next;
-	// 	}
+		iterator = iterator->next;
 	}
 	return cardsTransfered;
 }
