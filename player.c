@@ -83,7 +83,17 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 	}
 	return cardsTransfered;
 }
-
+/*trans_card = &iterator->top
+remove_card(src, &iterator->top);
+add_card(dest, &iterator->top);
+src->hand_size--;
+dest->hand_size++;
+cardsTransfered++;
+}
+iterator = iterator->next;
+}
+return cardsTransfered;
+}*/
 //1->target has rank 0->target does not have rank
 int search4(struct player* target, char *rank){
 	int count = 0;
