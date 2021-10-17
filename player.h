@@ -16,7 +16,7 @@
  */
 struct player {
   struct hand* card_list;
-  char book[8];
+  char book[16];
   size_t hand_size;
 };
 
@@ -64,7 +64,7 @@ int remove_card(struct player* target, struct card* old_card);
  *
  *  Return: a char that indicates the book that was added; return 0 if no book added.
  */
-char check_add_book(struct player* target);
+char* check_add_book(struct player* target);
 
 /*
  * Function: search
@@ -77,6 +77,18 @@ char check_add_book(struct player* target);
  *  Return: If the player has a card of that rank, return 1, else return 0
  */
 int search(struct player* target, char rank[3]);
+
+/*
+ * Function: search4
+ * ----------------
+ *  Search a player's to see if they have 4 of the requested rank
+ *
+ *  rank: the rank to search for
+ *  target: the player (and their hand) to search
+ *
+ *  Return: If the player has a 4 cards of that rank, return 1, else return 0
+ */
+int search4(struct player* target, char *rank);
 
 /*
  * Function: transfer_cards

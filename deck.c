@@ -1,6 +1,5 @@
 #include "deck.h"
 
-
 int shuffle(){
 	char* SUITS[5] = {"H", "C", "S", "D"};
 	char* RANKS[14] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
@@ -24,7 +23,6 @@ int shuffle(){
 	}
 	deck_instance.top_card = 0; // top card is the element position of the top card in the array
 	return 0;
-
 }
 
 void swap(struct card *a, struct card *b){
@@ -33,16 +31,6 @@ void swap(struct card *a, struct card *b){
 	*b = temp;
 }
 
-/*
- * Function: deal_player_cards
- * ---------------------------
- *  Deal 7 random cards to the player specified in the function.
- *  Remove the dealt cards from the deck.
- *
- *  target: pointer to the player to be dealt cards
- *
- *  returns: 0 if no error, and non-zero on error
- */
 int deal_player_cards(struct player* target){
 	for (int i=0; i<7; i++){
 		int error = add_card(target, next_card());
@@ -52,24 +40,11 @@ int deal_player_cards(struct player* target){
 	return 0;
 }
 
-
-/*
- * Function: next_card
- * -------------------
- *  Return a pointer to the top card on the deck.
- *  Removes that card from the deck.
- *
- *  returns: pointer to the top card on the deck.
- */
 struct card* next_card(){
 	struct card* temp = &deck_instance.list[deck_instance.top_card];
 	deck_instance.top_card++;
 	return temp;
-
-
 }
-
-
 
 size_t deck_size(){
 	return 52 - deck_instance.top_card;

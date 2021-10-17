@@ -1,15 +1,5 @@
 #include "player.h"
 
-/*
- * Function: add_card
- * -------------------
- *  Add a new card to the player's hand.
- *
- *  target: the target player
- *  new_card: pointer to the new card to add
- *
- *  returns: return 0 if no error, non-zero otherwise
- */
 int add_card(struct player* target, struct card* new_card){
 	struct hand* temp;
 	temp = (struct hand*)malloc(sizeof(struct hand));
@@ -23,6 +13,7 @@ int add_card(struct player* target, struct card* new_card){
 }
 
 int remove_card(struct player* target, struct card* old_card){
+	printf("removing %s%s\n", old_card->rank, old_card->suit);
 	struct hand* iterator = target->card_list;
 	struct hand* previous = NULL;
 	if (iterator == NULL) { return -1; }
@@ -66,6 +57,7 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 			filler->next = dest->card_list;
 			dest->card_list = filler;
 			dest->hand_size++;
+			printf("%s%s ", iterator->top.rank, iterator->top.suit);
 			if (iterator == src->card_list){ // if the match is top level
 				// remove card from src hand
 				src->card_list = iterator->next;
@@ -80,17 +72,56 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 		}
 		iterator = iterator->next;
 	}
+	printf("\n");
 	return cardsTransfered;
+}
+
+//1->target has rank 0->target does not have rank
+int search4(struct player* target, char *rank){
+	int count = 0;
+	struct hand* iterator = target->card_list;
+	if (iterator == NULL) { return -1; }
+	//printf("rank %s", iterator->top.rank);
+	while (iterator != NULL){
+		if (strcmp(iterator->top.rank, rank) == 0) { count ++; }
+		iterator = iterator->next;
+	}
+	return count;
+}
+
+char* check_add_book(struct player* target){
+	char* SUITS[5] = {"H", "C", "S", "D"};
+	struct hand* iterator = target->card_list;
+	while (iterator != NULL){
+		if (search4(target, iterator->top.rank) == 4){ break; }
+		iterator = iterator->next;
+	}
+	if (iterator == NULL) { return "0"; }
+	// found 4 of the same rank
+	char rank[3];
+	strcpy(rank, iterator->top.rank);
+	struct card bookCard;
+	while (search(target, rank) == 1){
+		for (int i=0; i<4; i++){
+			strcpy(bookCard.suit, SUITS[i]);
+			strcpy(bookCard.rank, rank);
+			printf("remove status %d",remove_card(target, &bookCard));
+		}
+	}
+	char *prank = malloc(sizeof(rank));
+	strcpy(prank, rank);
+	return prank;
 }
 
 char* computer_play(struct player* target){
 	struct hand* iterator = target->card_list;
 	// produce [0,6]
 	int randCard = (rand() % (int)(target->hand_size));
+	//printf("computer's rand num: %d", randCard);
 	for (int i = 0; i<randCard; i++){
 		iterator = iterator->next;
 	}
-	char *pans = malloc(sizeof(target->card_list->top.rank));
+	char *pans = malloc(sizeof(iterator->top.rank));
 	pans = iterator->top.rank;
 	printf("Player 2's turn, enter a Rank: %s\n", pans);
 	return pans;
@@ -98,8 +129,7 @@ char* computer_play(struct player* target){
 
 
 char* user_play(struct player* target){
-	char ans[3];
-	char *pans = malloc(sizeof(ans));
+	char *pans = malloc(sizeof(target->card_list->top.rank));
 	if (pans == NULL) {return NULL; }
 	int userHasRank = 0;
 	while (userHasRank == 0){
@@ -110,7 +140,6 @@ char* user_play(struct player* target){
 			printf("Error - must have at least one card from rank to play\n");
 		}
 	}
-
 	return pans;
 }
 // 0->game continue 1->game over
