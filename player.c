@@ -8,16 +8,14 @@ int add_card(struct player* target, struct card* new_card){
 	temp->next = target->card_list;
 	target->card_list = temp;
 	target->hand_size++;
-
 	return 0;
 }
 
 int remove_card(struct player* target, struct card* old_card){
-	printf("removing %s%s\n", old_card->rank, old_card->suit);
 	struct hand* iterator = target->card_list;
 	struct hand* previous = NULL;
 	if (iterator == NULL) { return -1; }
-	while ((strcmp(iterator->top.suit, old_card->suit) != 0) && (strcmp(iterator->top.rank, old_card->rank) != 0)){
+	while ((strcmp(iterator->top.suit, old_card->suit) != 0) || (strcmp(iterator->top.rank, old_card->rank) != 0)){
 		previous = iterator;
 		iterator = iterator->next;
 		if (iterator == NULL) { return -1; } // empty condition
@@ -36,11 +34,23 @@ int remove_card(struct player* target, struct card* old_card){
 int search(struct player* target, char *rank){
 	struct hand* iterator = target->card_list;
 	if (iterator == NULL) { return -1; }
-	//printf("rank %s", iterator->top.rank);
 	while (strcmp(iterator->top.rank, rank) != 0){
 		iterator = iterator->next;
 		if (iterator == NULL) { return 0; }
 	}
+	return 1;
+}
+
+int searchPrint(struct player* target, char *rank){
+	struct hand* iterator = target->card_list;
+	if (iterator == NULL) { return -1; }
+	while (iterator != NULL){
+		if (strcmp(iterator->top.rank, rank) == 0) {
+			printf("%s%s ", iterator->top.rank, iterator->top.suit);
+		}
+		iterator = iterator->next;
+	}
+	printf("\n");
 	return 1;
 }
 
@@ -57,7 +67,6 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 			filler->next = dest->card_list;
 			dest->card_list = filler;
 			dest->hand_size++;
-			printf("%s%s ", iterator->top.rank, iterator->top.suit);
 			if (iterator == src->card_list){ // if the match is top level
 				// remove card from src hand
 				src->card_list = iterator->next;
@@ -72,7 +81,6 @@ int transfer_cards(struct player* src, struct player* dest, char *rank){
 		}
 		iterator = iterator->next;
 	}
-	printf("\n");
 	return cardsTransfered;
 }
 
@@ -101,12 +109,10 @@ char* check_add_book(struct player* target){
 	char rank[3];
 	strcpy(rank, iterator->top.rank);
 	struct card bookCard;
-	while (search(target, rank) == 1){
-		for (int i=0; i<4; i++){
-			strcpy(bookCard.suit, SUITS[i]);
-			strcpy(bookCard.rank, rank);
-			printf("remove status %d",remove_card(target, &bookCard));
-		}
+	for (int i=0; i<4; i++){
+		strcpy(bookCard.suit, SUITS[i]);
+		strcpy(bookCard.rank, rank);
+		remove_card(target, &bookCard);
 	}
 	char *prank = malloc(sizeof(rank));
 	strcpy(prank, rank);
@@ -133,7 +139,7 @@ char* user_play(struct player* target){
 	if (pans == NULL) {return NULL; }
 	int userHasRank = 0;
 	while (userHasRank == 0){
-		printf("Player 1's turn, enter a Rank:");
+		printf("Player 1's turn, enter a Rank: ");
 		scanf("%s", pans);
 		userHasRank = search(target, pans);
 		if (userHasRank == 0){
@@ -142,9 +148,29 @@ char* user_play(struct player* target){
 	}
 	return pans;
 }
+
+int reset_player(struct player* target){
+	// reset book
+	memset(&(target->book[0]), 0, sizeof(target->book));
+	// reset cards in hand (free them)
+	struct hand* delHand = NULL;
+  while(target->card_list != NULL)
+  {
+    delHand = target->card_list;
+    target->card_list = delHand->next;
+    free(delHand);
+		target->hand_size--;
+  }
+  if(target->card_list != NULL || strlen(target->book) != 0){
+    printf("\nERROR IN reset_player");
+    return -1;
+  }
+  return 0;
+}
+
 // 0->game continue 1->game over
 int game_over(struct player* target){
 	size_t bookLen = strlen(target->book);
-	if (bookLen == 7) { return 1; }
+	if (bookLen >= 14) { return 1; }
 	return 0;
 }

@@ -32,10 +32,18 @@ void swap(struct card *a, struct card *b){
 }
 
 int deal_player_cards(struct player* target){
-	for (int i=0; i<7; i++){
-		int error = add_card(target, next_card());
-		if (error == -1) { return -1; }
+	if (deck_size() >=7 ){
+		for (int i=0; i<7; i++){
+			int error = add_card(target, next_card());
+			if (error == -1) { return -1; }
+		}
+	} else {
+		for (int i=0; i<deck_size(); i++){
+			int error = add_card(target, next_card());
+			if (error == -1) { return -1; }
+		}
 	}
+
 
 	return 0;
 }

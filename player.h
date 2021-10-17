@@ -90,6 +90,9 @@ int search(struct player* target, char rank[3]);
  */
 int search4(struct player* target, char *rank);
 
+// prints src's cards when a match is made
+int searchPrint(struct player* target, char *rank);
+
 /*
  * Function: transfer_cards
  * ------------------------
