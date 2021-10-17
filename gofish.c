@@ -130,9 +130,9 @@ int main(int args, char* argv[])
 		printHand(&user, p1format);
 		printHand(&computer, p2format);
 		if (game_over(&user) == 1){
-			printf("Player 1 wins! %lu-%lu\n", (strlen(user.book))/2,(strlen(computer.book))/2);
+			printf("Player 1 wins! %zu-%zu\n", (strlen(user.book))/2,(strlen(computer.book))/2);
 		} else {
-			printf("Player 2 wins! %lu-%lu\n", (strlen(computer.book))/2,(strlen(user.book))/2);
+			printf("Player 2 wins! %zu-%zu\n", (strlen(computer.book))/2,(strlen(user.book))/2);
 		}
 		//play = "X";
 		strcpy(play, "X");
@@ -143,6 +143,8 @@ int main(int args, char* argv[])
 		reset_player(&user);
 		reset_player(&computer);
 	} // end play again loop
+	free(userInput);
+	free(bookCard);
 	printf("Exiting\n");
 	return 0;
 }
