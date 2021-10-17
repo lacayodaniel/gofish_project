@@ -1,6 +1,7 @@
 #include "deck.h"
 
 int shuffle(){
+	printf("shuffling cards...\n");
 	char* SUITS[5] = {"H", "C", "S", "D"};
 	char* RANKS[14] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
 	int i,j,n=0;
@@ -43,8 +44,6 @@ int deal_player_cards(struct player* target){
 			if (error == -1) { return -1; }
 		}
 	}
-
-
 	return 0;
 }
 

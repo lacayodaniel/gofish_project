@@ -4,8 +4,6 @@
 
 int main(int args, char* argv[])
 {
-	char *p1format = "Player 1's";
-	char *p2format = "Player 2's";
 	int isUserTurn;
 	char *userInput = malloc(sizeof(user.card_list->top.rank));
 	char *bookCard = malloc(sizeof(user.card_list->top.rank));
@@ -22,8 +20,7 @@ int main(int args, char* argv[])
 				deal_player_cards(&computer);
 			}
 			// show player cards
-			printHand(&user, p1format);
-			printHand(&computer, p2format);
+			printHand();
 			// player turn
 			if (isUserTurn == 1) {
 				userInput = user_play(&user);
@@ -127,8 +124,7 @@ int main(int args, char* argv[])
 			printf("\n");
 		} // end while game is not over
 		// show player cards
-		printHand(&user, p1format);
-		printHand(&computer, p2format);
+		printHand();
 		if (game_over(&user) == 1){
 			printf("Player 1 wins! %zu-%zu\n", (strlen(user.book))/2,(strlen(computer.book))/2);
 		} else {
@@ -143,18 +139,19 @@ int main(int args, char* argv[])
 		reset_player(&user);
 		reset_player(&computer);
 	} // end play again loop
-	free(userInput);
-	free(bookCard);
 	printf("Exiting\n");
 	return 0;
 }
 
-void printHand(struct player *target, char *handFormat){
-	struct hand* templist = target->card_list;
-	printf("%s Hand: ", handFormat);
+void printHand(){
+	// print user's hand and book
+	struct hand* templist = user.card_list;
+	printf("Player 1's Hand: ");
 	while (templist != NULL){
 		printf("%s%s ", templist->top.rank, templist->top.suit);
 		templist = templist->next;
 	}
-	printf("\n%s Book: %s\n", handFormat, target->book);
+	printf("\nPlayer 1's Book: %s\n", user.book);
+	// print computer's book
+	printf("Player 2's Book: %s\n", computer.book);
 }

@@ -131,6 +131,7 @@ char* check_add_book(struct player* target){
 
 char* computer_play(struct player* target){
 	struct hand* iterator = target->card_list;
+	srand ( time(NULL) );
 	// produce [0,6]
 	int randCard = (rand() % (int)(target->hand_size));
 	//printf("computer's rand num: %d", randCard);
@@ -142,7 +143,6 @@ char* computer_play(struct player* target){
 	printf("Player 2's turn, enter a Rank: %s\n", pans);
 	return pans;
 }
-
 
 char* user_play(struct player* target){
 	char *pans = malloc(sizeof(target->card_list->top.rank));
